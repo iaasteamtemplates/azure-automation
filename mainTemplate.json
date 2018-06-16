@@ -12,25 +12,25 @@
         "description": "Create a new Azure Automation account or select an existing account to use for XG automation. WARNING: Automation account names are unique, so reusing an account name when creating a new account will overwirte the existing account!."
       }
     },
-    "Account Name": {
+	"Account Name": {
       "type": "string",
       "metadata": {
         "description": "Enter the name of the Azure Automation account you wish to use / create. Note that when creating a new account the account name must be between 6 to 50 characters, and can contain only letters, numbers, and hyphens."
       }
     },
-    "Account Location": {
+	"Account Location": {
       "type": "string",
       "metadata": {
         "description": "The location of the Azure Automation account. Note that the location will be ignored if you select an existing account."
       }
     },
-    "XG admin password": {
+	"XG admin password": {
       "type": "string",
       "metadata": {
         "description": "Enter the password of the XG Firewall's admin user."
       }
     },
-    "PortA Gateway": {
+	"PortA Gateway": {
       "type": "string",
       "metadata": {
         "description": "The gateway address (the first address in the subnet's range) for the PortA subnet on the XG Firewall."
@@ -86,12 +86,12 @@
       }
     },
 	{
-      "name": "[concat(parameters('accountName'), '/', variables('psmodule').name)]",
+      "name": "[concat(parameters('Account Name'), '/', variables('psmodule').name)]",
       "type": "Microsoft.Automation/automationAccounts/modules",
       "apiVersion": "2015-10-31",
       "tags": {},
       "dependsOn": [
-        "[resourceId('Microsoft.Automation/automationAccounts', parameters('accountName'))]"
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('Account Name'))]"
       ],
       "properties": {
         "contentLink": {
@@ -100,12 +100,12 @@
       }
     },
 	{
-      "name": "[concat(parameters('accountName'), '/', variables('runbook').name)]",
+      "name": "[concat(parameters('Account Name'), '/', variables('runbook').name)]",
       "type": "Microsoft.Automation/automationAccounts/runbooks",
       "apiVersion": "2015-10-31",
-      "location": "[parameters('accountLocation')]",
+      "location": "[parameters('Account Location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Automation/automationAccounts', parameters('accountName'))]"
+        "[resourceId('Microsoft.Automation/automationAccounts', parameters('Account Name'))]"
       ],
       "tags": {},
       "properties": {
@@ -120,12 +120,12 @@
       }
     },
 	{
-	  "name": "[concat(parameters('accountName'), '/', variables('job').name)]",
+	  "name": "[concat(parameters('Account Name'), '/', variables('job').name)]",
 	  "type": "Microsoft.Automation/automationAccounts/jobs",
 	  "apiVersion": "2017-05-15-preview",
 	  "dependsOn": [
-              "[resourceId('Microsoft.Automation/automationAccounts', parameters('accountName'))]",
-              "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'), '/runbooks/',variables('runbook').name)]"
+              "[resourceId('Microsoft.Automation/automationAccounts', parameters('Account Name'))]",
+              "[concat('Microsoft.Automation/automationAccounts/', parameters('Account Name'), '/runbooks/',variables('runbook').name)]"
 			  ],
 	  "properties": {
 		"runbook": {
