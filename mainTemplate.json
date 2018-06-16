@@ -64,7 +64,7 @@
     },
 	"job": {
 		"name": "Run_XG-LB-routing"
-	},
+	}
   },
   "resources": [
     {
