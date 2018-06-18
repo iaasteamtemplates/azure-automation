@@ -50,26 +50,11 @@
     }
   },
   "variables": {
-    "templatelink": "https://raw.githubusercontent.com/iaasteamtemplates/azure-automation/master/resources/NewAAAccountTemplate.json",
-	"psmodule": {
-      "name": "Posh-SSH",
-      "url": "https://devopsgallerystorage.blob.core.windows.net/packages/posh-ssh.2.0.2.nupkg"
-    },
-	"runbook": {
-        "name": "XG-LB-routing",
-        "version": "1.0.0.0",
-        "description": "This runbook configures routing for the Azure Load Balancer Standard health check on the XG nodes in the Availability Set",
-        "type": "PowerShell",
-        "scriptUri": "https://raw.githubusercontent.com/iaasteamtemplates/xg-aa/master/xg-aa.ps1"
-    },
-	"job": {
-		"name": "Run_XG-LB-routing"
-	}
+    "templatelink": "[concat(https://raw.githubusercontent.com/iaasteamtemplates/azure-automation/master/resources/', parameters('New or Existing Automation account'), 'AAAccountTemplate.json')]"
   },
   "resources": [
     {
-      "condition": "[equals(parameters('New or existing account'), 'New')]",
-	  "apiVersion": "2015-01-01",
+      "apiVersion": "2015-01-01",
       "name": "nestedTemplate",
       "type": "Microsoft.Resources/deployments",
       "properties": {
@@ -84,64 +69,22 @@
           },
           "accountLocation": {
             "value": "[parameters('Account Location')]"
+          },
+		  "xgpassword": {
+            "value": "[parameters('XG admin password')]"
+          },
+		  "portagw": {
+            "value": "[parameters('PortA Gateway')]"
+          },
+		  "portbgw": {
+            "value": "[parameters('PortB Gateway')]"
+          },
+		  "xghostname": {
+            "value": "[parameters('XG Hostname')]"
           }
         }
       }
-    },
-	{
-      "name": "[concat(parameters('Account Name'), '/', variables('psmodule').name)]",
-      "type": "Microsoft.Automation/automationAccounts/modules",
-      "apiVersion": "2015-10-31",
-      "tags": {},
-      "dependsOn": [
-        "[resourceId('Microsoft.Automation/automationAccounts', parameters('Account Name'))]"
-      ],
-      "properties": {
-        "contentLink": {
-          "uri": "[variables('psmodule').url]"
-        }
-      }
-    },
-	{
-      "name": "[concat(parameters('Account Name'), '/', variables('runbook').name)]",
-      "type": "Microsoft.Automation/automationAccounts/runbooks",
-      "apiVersion": "2015-10-31",
-      "location": "[parameters('Account Location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Automation/automationAccounts', parameters('Account Name'))]"
-      ],
-      "tags": {},
-      "properties": {
-        "runbookType": "[variables('runbook').type]",
-        "logProgress": "false",
-        "logVerbose": "false",
-        "description": "[variables('runbook').description]",
-        "publishContentLink": {
-          "uri": "[variables('runbook').scriptUri]",
-          "version": "[variables('runbook').version]"
-        }
-      }
-    },
-	{
-	  "name": "[concat(parameters('Account Name'), '/', variables('job').name)]",
-	  "type": "Microsoft.Automation/automationAccounts/jobs",
-	  "apiVersion": "2017-05-15-preview",
-	  "dependsOn": [
-              "[resourceId('Microsoft.Automation/automationAccounts', parameters('Account Name'))]",
-              "[concat('Microsoft.Automation/automationAccounts/', parameters('Account Name'), '/runbooks/',variables('runbook').name)]"
-			  ],
-	  "properties": {
-		"runbook": {
-			"name": "[variables('runbook').name]"
-		},
-		"parameters": {
-			"password":"[parameters('XG admin password')]",
-			"portagw":"[parameters('PortA Gateway')]",
-			"portbgw":"[parameters('PortB Gateway')]",
-			"hostname":"[parameters('XG Hostname')]"
-		}
-	  }
-	}
+    }
   ],
   "outputs": {}
 }
