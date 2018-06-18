@@ -50,7 +50,7 @@
     }
   },
   "variables": {
-    "templatelink": "[concat(https://raw.githubusercontent.com/iaasteamtemplates/azure-automation/master/resources/', parameters('New or Existing Automation account'), 'AAAccountTemplate.json')]"
+    "templatelink": "[concat('https://raw.githubusercontent.com/iaasteamtemplates/azure-automation/master/resources', parameters('New or Existing Automation account'), 'AAAccountTemplate.json')]"
   },
   "resources": [
     {
