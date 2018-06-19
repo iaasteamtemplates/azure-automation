@@ -19,6 +19,9 @@
     },
 	"xghostname": {
       "type": "string"
+    },
+	"sshport": {
+      "type": "string"
     }
   },
   "variables": {
@@ -102,7 +105,8 @@
 				"password":"[parameters('xgpassword')]",
 				"portagw":"[parameters('portagw')]",
 				"portbgw":"[parameters('portbgw')]",
-				"hostname":"[parameters('xghostname')]"
+				"hostname":"[parameters('xghostname')]",
+				"sshport":"[parameters('sshport')]"
 			}
 		  }
 		}

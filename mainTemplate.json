@@ -47,6 +47,12 @@
       "metadata": {
         "description": "The public hostname used by the XG Firewall."
       }
+    },
+	"XG SSH Port": {
+      "type": "string",
+      "metadata": {
+        "description": "The SSH port used by the XG Firewall."
+      }
     }
   },
   "variables": {
@@ -81,6 +87,9 @@
           },
 		  "xghostname": {
             "value": "[parameters('XG Hostname')]"
+          },
+		  "sshport": {
+            "value": "[parameters('XG SSH Port')]"
           }
         }
       }
