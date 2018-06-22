@@ -57,7 +57,7 @@
   ],
   "outputs": {
 		"runbookRef": {
-            "value": "[variables('runbook')]",
+            "value": "[variables('runbook').name]",
             "type": "string"
         }
 	}
