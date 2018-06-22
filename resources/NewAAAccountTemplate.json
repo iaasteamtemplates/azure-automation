@@ -7,21 +7,6 @@
     },
     "accountLocation": {
       "type": "string"
-    },
-    "xgpassword": {
-      "type": "securestring"
-    },
-    "portagw": {
-      "type": "string"
-    },
-	"portbgw": {
-      "type": "string"
-    },
-	"xghostname": {
-      "type": "string"
-    },
-	"sshport": {
-      "type": "string"
     }
   },
   "variables": {
