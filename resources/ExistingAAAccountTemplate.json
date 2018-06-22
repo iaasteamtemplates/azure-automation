@@ -68,27 +68,12 @@
 		 "version": "[variables('runbook').version]"
 		}
 	 }
-	},
-	{
-	 "name": "[concat(parameters('accountName'), '/', variables('job').name)]",
-	 "type": "Microsoft.Automation/automationAccounts/jobs",
-	 "apiVersion": "2017-05-15-preview",
-	 "dependsOn": [
-		"[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'), '/runbooks/',variables('runbook').name)]"
-	 ],
-	 "properties": {
-		"runbook": {
-		"name": "[variables('runbook').name]"
-		},
-		"parameters": {
-			"password":"[parameters('xgpassword')]",
-			"portagw":"[parameters('portagw')]",
-			"portbgw":"[parameters('portbgw')]",
-			"hostname":"[parameters('xghostname')]",
-			"sshport":"[parameters('sshport')]"
-		}
-	 }
 	}
   ],
-  "outputs": {}
+  "outputs": {
+		"runbookRef": {
+            "value": "[variables('runbook')]",
+            "type": "string"
+        }
+	}
 }
